@@ -1,18 +1,6 @@
 {
-
   "dependencies": {
     "prompt-sync": "^4.2.0",
-    "xlsx": "^0.18.5",
-    "xlsx-populate": "^1.21.0"
-  },
-  "name": "ejercicio-xlsx",
-  "version": "1.0.0",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+    "xlsx": "^0.18.5"
+  }
 }
