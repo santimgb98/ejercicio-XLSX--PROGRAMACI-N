@@ -32,31 +32,48 @@ class Menu{
         });
     }
     leer_archivo(){ // FUNCIONA
-        const excel = xlsx.readFile("./xlsx/libro2.xlsx");
+        const xlsxToRead = prompt('Selecciona un libro: ');
+        const excel = xlsx.readFile(`./xlsx/${xlsxToRead}.xlsx`);
         const nombreHoja = excel.SheetNames;
 
         let datos = xlsx.utils.sheet_to_csv(excel.Sheets[nombreHoja[0]],{
             cellDates : true
         })
-        console.log(datos);
+        console.log(`Contenido de ${xlsxToRead}: ${datos}`);
        
     }
     borrar_archivo(){
-        fs.unlinkSync("../xlsx/libro3.xlsx");
-        console.clear()
+        // Se introduce el libro que se desea eliminar
+        const xlsxToRemove = prompt('Selecciona un libro: ');
+
+        // Try-Catch para eliminar el libro/mostrar el fallo si no se completa la eliminación
+        try{
+            fs.unlinkSync(`./xlsx/${xlsxToRemove}.xlsx`);
+            console.clear()
+            console.log(`${xlsxToRemove} ha sido eliminado con éxito!`);
+        }catch(err){
+            console.log("No se ha podido completar correctamente la eliminación del documento")
+            console.log(`Se ha producido un ${err}`)
+        }
     }
     editar_archivo(){
-        this.workbook = xlsx.readFile("../xlsx/libro1.xlsx")
-        const sheetName = this.workbook.SheetNames[0];
-        const sheet = this.workbook.Sheets[sheetName];
+        const xlsxToEdit = prompt("Seleciona libro a editar: ");
+        const cellStartToEdit = prompt("En qué celda empieza la edición: ");
+        const newContent = prompt("Introduce el nuevo contenido: ");
+        try{
+            this.workbook = xlsx.readFile(`./xlsx/${xlsxToEdit}.xlsx`)
+            const sheetName = this.workbook.SheetNames[0];
+            const sheet = this.workbook.Sheets[sheetName];
 
-        // Modificar la celda A1
-        sheet['A1'] = {v:'Nuevo valor'};
+            xlsx.utils.sheet_add_aoa(sheet, [[`${newContent}`]], {origin: `${cellStartToEdit}`});
 
-        xlsx.utils.sheet_add_aoa(sheet, [['nuevaFila','valor1','valor2']], {origin: 'B3'});
-
-        // Guardar los cambios
-        xlsx.writeFile(this.workbook, "../xlsx/libro1.xlsx");
+            // Guardar los cambios
+            xlsx.writeFile(this.workbook, `./xlsx/${xlsxToEdit}.xlsx`);
+            console.log(`El ${xlsxToEdit} se ha editado correctamente!`);
+        }catch(err){
+            console.log("No se ha podido completar correctamente la edición del documento")
+            console.log(`Se ha producido un ${err}`)
+        }
     }
 }
 
