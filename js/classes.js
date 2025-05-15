@@ -1,6 +1,7 @@
 const xlsx = require('xlsx');
 const prompt = require("prompt-sync")();
 const fs = require('fs');
+const path = require('path')
 const { log } = require('console');
 const workbook = xlsx.utils.book_new();
 
@@ -20,13 +21,13 @@ class Menu{
         console.clear()
     }
     listar_archivos(){
-        fs.readdir('./xlsx',(err,files)=>{
-            if(err){
-                log("No se ha podido acceder a los archivos");
-                return;
-            }
-            log('Carpeta XLSX: ',`${files}`);
-        })
+          fs.readdir('./xlsx', (files) => {
+            console.log("Archivos XLSX:");
+            files.forEach(file => {
+                if (path.extname(file) == ".xlsx")
+                console.log(file);
+            });
+        });
     }
     leer_archivo(){
         const excel = xlsx.readFile("./xlsx/libro2.xlsx");
