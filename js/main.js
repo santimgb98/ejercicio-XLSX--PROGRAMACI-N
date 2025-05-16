@@ -1,6 +1,5 @@
 const prompt = require("prompt-sync")();
 const Menu = require( "./classes.js");
-const { brotliCompress } = require("zlib");
 
 const menu_excel = new Menu();
 while(true){
@@ -14,7 +13,7 @@ while(true){
     6. Salir"
     -----------------------`);
 
-    var option = prompt("Selecciona una opción del menú: ");
+    let option = prompt("Selecciona una opción del menú: ");
     switch(option){
         case "1":{
             menu_excel.crear_archivo();
